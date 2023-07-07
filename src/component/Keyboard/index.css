@@ -1,0 +1,41 @@
+.keyboard {
+    margin-top: 50px;
+}
+
+.row1 {
+    display: grid;
+    grid-template-columns: repeat(10, 60px);
+    grid-template-rows: 50px;
+    justify-content: center;
+    grid-gap:4px;
+}
+
+
+.row2 {
+    display: grid;
+    grid-template-columns: repeat(9, 67px);
+    grid-template-rows: 50px;
+    justify-content: center;
+    grid-gap:4px;
+}
+
+.row3 {
+    display: grid;
+    grid-template-columns: 90px repeat(7, 60px) 90px;
+    grid-template-rows: 50px;
+    justify-content: center;
+    grid-gap:4px;
+}
+
+.correct{
+    background-color: aquamarine;
+}
+
+.elsewhere{
+    background-color: burlywood;
+}
+
+.wrong{
+    background-color: #8f94a0;
+}
+

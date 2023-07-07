@@ -1,0 +1,13 @@
+.enter {
+    background-color: #C4CBDD;
+    font-size: 1.2em;
+    text-align: center;
+    line-height: 45px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.enter:hover{
+    background-color: #a5a8ae;
+    cursor: pointer;
+}

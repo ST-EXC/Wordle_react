@@ -1,0 +1,25 @@
+.key {
+    background-color: #C4CBDD;
+    font-size: 1.2em;
+    text-align: center;
+    line-height: 45px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.key:hover{
+    background-color: #a5a8ae;
+    cursor: pointer;
+}
+
+.correct{
+    background-color: aquamarine;
+}
+
+.elsewhere{
+    background-color: burlywood;
+}
+
+.wrong{
+    background-color: #8f94a0;
+}
