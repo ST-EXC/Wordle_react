@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import Key from "../Key"
 import Enter from "../Enter"
 import Delete from "../Delete"
+import Restart from "../Restart"
 import { nanoid } from "nanoid"
 import "./index.css"
 
@@ -13,7 +14,7 @@ export default class Keyboard extends Component {
     }
     render() {
         const { row1, row2, row3 } = this.state;
-        const { addWord, enterLine, deleteWord, keysAttributes } = this.props
+        const { addWord, enterLine, deleteWord, keysAttributes,restart } = this.props
         return (
             <div className="keyboard">
                 <div className="row1">
@@ -39,6 +40,7 @@ export default class Keyboard extends Component {
                         })
                     }
                     <Enter key={nanoid} ref={enter => this.enter = enter} enterLine={enterLine} />
+                    <Restart restart={restart}/>
                 </div>
             </div>
         )

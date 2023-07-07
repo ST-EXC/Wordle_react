@@ -68,11 +68,83 @@ export default class App extends Component {
       columnIndex: 0,
       content: "",
       opacity: 0,
+      isOver: false,
+      isWin: false,
     };
+  }
+  restart = () => {
+    const { wordsList } = wordsTable;
+    const l = wordsList.length;
+    const index = parseInt(Math.random() * l);
+    const answer = wordsList[index];
+    console.log(answer);
+    const words = new Array(30).fill("");
+    const actives = new Array(30).fill(false);
+    const attributes = new Array(30).fill({
+      isCorrect: false,
+      isWrong: false,
+      isElsewhere: false,
+    });
+    const cha = [
+      "Q",
+      "W",
+      "E",
+      "R",
+      "T",
+      "Y",
+      "U",
+      "I",
+      "O",
+      "P",
+      "A",
+      "S",
+      "D",
+      "F",
+      "G",
+      "H",
+      "J",
+      "K",
+      "L",
+      "Z",
+      "X",
+      "C",
+      "V",
+      "B",
+      "N",
+      "M",
+    ];
+    const a = {
+      isCorrect: false,
+      isWrong: false,
+      isElsewhere: false,
+    };
+    let keysAttributes = {};
+    cha.forEach((ch) => {
+      keysAttributes[ch] = a;
+    });
+    let state = {
+      words,
+      actives,
+      attributes,
+      keysAttributes,
+      answer,
+      wordsList,
+      column: 5,
+      row: 6,
+      rowIndex: 0,
+      columnIndex: 0,
+      content: "",
+      opacity: 0,
+      isOver: false,
+      isWin: false,
+    };
+    this.setState(state);
   }
 
   addWord = (word) => {
-    let { words, actives, column, rowIndex, columnIndex } = this.state;
+    let { words, actives, column, rowIndex, columnIndex, isOver, isWin } =
+      this.state;
+    if (isOver || isWin) return;
     if (columnIndex === column) return;
     let index = column * rowIndex + columnIndex;
     words[index] = word;
@@ -81,7 +153,18 @@ export default class App extends Component {
     this.setState({ words, actives, columnIndex });
   };
   enterLine = () => {
-    let { rowIndex, columnIndex, column, actives, content } = this.state;
+    let {
+      rowIndex,
+      columnIndex,
+      column,
+      row,
+      actives,
+      content,
+      isOver,
+      isWin,
+      answer,
+    } = this.state;
+    if (isWin || isOver) return;
     if (columnIndex !== column) {
       content = "单词过短";
       this.popup(content);
@@ -93,13 +176,26 @@ export default class App extends Component {
       return;
     }
     this.indicate();
-    actives.map((active, index) => {
-      return (actives[index] = false);
+    let word = this.getCurrentWord();
+    if (word === answer) {
+      isWin = true;
+      content = "胜利";
+      this.popup(content);
+      this.setState({ isWin });
+      return;
+    }
+    actives.forEach((active, index) => {
+      actives[index] = false;
     });
-    this.setState({ rowIndex: rowIndex + 1, columnIndex: 0, actives });
+    if (rowIndex + 1 === row) {
+      isOver = true;
+      this.popup("你输了");
+    }
+    this.setState({ rowIndex: rowIndex + 1, columnIndex: 0, actives, isOver });
   };
   deleteWord = () => {
-    let { words, actives, column, rowIndex, columnIndex } = this.state;
+    let { words, actives, column, rowIndex, columnIndex, isWin, isOver } = this.state;
+    if (isOver || isWin) return;
     let index = column * rowIndex + columnIndex;
     if (columnIndex === 0) {
       words[index] = "";
@@ -170,20 +266,14 @@ export default class App extends Component {
     this.setState({ attributes, keysAttributes });
   };
   popup = (content) => {
-    this.setState({ opacity: 1 ,content});
+    this.setState({ opacity: 1, content });
     setTimeout(() => {
       this.setState({ opacity: 0 });
     }, 800);
   };
   render() {
-    const {
-      words,
-      actives,
-      attributes,
-      keysAttributes,
-      content,
-      opacity,
-    } = this.state;
+    const { words, actives, attributes, keysAttributes, content, opacity } =
+      this.state;
     return (
       <div className="WordleContainer">
         <Screen words={words} actives={actives} attributes={attributes} />
@@ -193,6 +283,7 @@ export default class App extends Component {
           enterLine={this.enterLine}
           deleteWord={this.deleteWord}
           keysAttributes={keysAttributes}
+          restart={this.restart}
         />
         <Popup content={content} opacity={opacity} />
       </div>

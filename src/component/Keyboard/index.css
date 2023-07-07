@@ -21,7 +21,7 @@
 
 .row3 {
     display: grid;
-    grid-template-columns: 90px repeat(7, 60px) 90px;
+    grid-template-columns: repeat(10, 60px);
     grid-template-rows: 50px;
     justify-content: center;
     grid-gap:4px;
